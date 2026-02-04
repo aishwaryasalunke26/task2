@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Student Dashboard | Final Year Project</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#0b1220;
+  --glass:rgba(255,255,255,0.12);
+  --text:#ffffff;
+  --accent:#22c55e;   /* changed from dark blue */
+  --card:#111827;
+}
+
+.light{
+  --bg:#f8fafc;
+  --glass:rgba(255,255,255,0.9);
+  --text:#0f172a;
+  --card:#ffffff;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  height:100vh;
+}
+
+.glass{
+  background:var(--glass);
+  backdrop-filter:blur(14px);
+  border-radius:16px;
+}
+
+.top-nav{
+  height:60px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 20px;
+}
+
+.logo{
+  font-size:22px;
+  font-weight:600;
+  color:var(--accent);
+}
+
+.icon-btn{
+  background:none;
+  border:none;
+  color:var(--text);
+  cursor:pointer;
+  margin-right:10px;
+}
+
+.logout{
+  background:#ef4444;
+  border:none;
+  padding:6px 14px;
+  border-radius:10px;
+  color:white;
+  cursor:pointer;
+}
+
+.dashboard{
+  display:flex;
+  height:calc(100vh - 60px);
+}
+
+.sidebar{
+  width:260px;
+  padding:20px;
+}
+
+.sidebar a{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px;
+  margin-bottom:8px;
+  border-radius:12px;
+  cursor:pointer;
+}
+
+.sidebar a.active,
+.sidebar a:hover{
+  background:var(--accent);
+  color:#000;
+}
+
+.content{
+  flex:1;
+  padding:25px;
+  overflow-y:auto;
+  animation:fade .3s ease;
+}
+
+@keyframes fade{
+  from{opacity:0;transform:translateX(20px);}
+  to{opacity:1;transform:translateX(0);}
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:15px;
+  margin-top:20px;
+}
+
+.card{
+  padding:20px;
+  background:var(--card);
+  border-radius:16px;
+}
+
+.profile{
+  display:flex;
+  gap:20px;
+  align-items:center;
+}
+
+.avatar{
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  background:var(--accent);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:36px;
+  color:#000;
+}
+
+a.link{
+  color:var(--accent);
+  text-decoration:none;
+  font-weight:500;
+}
+
+button{
+  padding:8px 14px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  background:var(--accent);
+  color:#000;
+  margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<header class="top-nav glass">
+  <div class="logo">Student Dashboard</div>
+  <div>
+    <button class="icon-btn" onclick="toggleTheme()">
+      <span class="material-icons">dark_mode</span>
+    </button>
+    <button class="logout" onclick="logout()">Logout</button>
+  </div>
+</header>
+
+<div class="dashboard">
+
+<aside class="sidebar glass">
+  <a class="active" onclick="load('dash',this)">
+    <span class="material-icons">dashboard</span> Dashboard
+  </a>
+  <a onclick="load('profile',this)">
+    <span class="material-icons">person</span> Profile
+  </a>
+  <a onclick="load('gpa',this)">
+    <span class="material-icons">calculate</span> GPA Calculator
+  </a>
+  <a onclick="load('resume',this)">
+    <span class="material-icons">description</span> Resume
+  </a>
+  <a onclick="load('settings',this)">
+    <span class="material-icons">settings</span> Settings
+  </a>
+</aside>
+
+<main class="content" id="content"></main>
+
+</div>
+
+<script>
+const content = document.getElementById("content");
+load("dash");
+
+function load(page, el){
+  document.querySelectorAll(".sidebar a").forEach(a=>a.classList.remove("active"));
+  if(el) el.classList.add("active");
+
+  if(page==="dash"){
+    content.innerHTML=`
+    <h2>👋 Welcome Aishwarya</h2>
+    <div class="cards">
+      <div class="card">🎓 Degree<br><b>B.E. Information Technology</b></div>
+      <div class="card">🏫 University<br><b>SPPU Pune</b></div>
+      <div class="card">💼 Internship<br><b>Full Stack Developer</b></div>
+      <div class="card">📅 Year<br><b>3rd Year</b></div>
+    </div>`;
+  }
+
+  if(page==="profile"){
+    content.innerHTML=`
+    <h2>👤 Profile</h2>
+    <div class="card profile">
+      <div class="avatar">A</div>
+      <div>
+        <h3>Aishwarya Salunke</h3>
+        <p>Engineering Student | IT</p>
+        <p>Email: aishwarya.salunke26@gmail.com</p>
+        <p>Location: Pune, Maharashtra</p>
+        <a class="link" href="https://www.linkedin.com/in/aishwaryasalunke" target="_blank">LinkedIn</a> |
+        <a class="link" href="https://github.com/" target="_blank">GitHub</a>
+      </div>
+    </div>`;
+  }
+
+  if(page==="gpa"){
+    content.innerHTML=`
+    <h2>🎓 GPA Calculator</h2>
+    <div class="card">
+      <p>Enter marks (out of 100):</p>
+      <input id="m1" type="number" placeholder="Subject 1">
+      <input id="m2" type="number" placeholder="Subject 2">
+      <input id="m3" type="number" placeholder="Subject 3">
+      <input id="m4" type="number" placeholder="Subject 4">
+      <input id="m5" type="number" placeholder="Subject 5">
+      <br>
+      <button onclick="calcGPA()">Calculate</button>
+      <p id="gpaResult"></p>
+    </div>`;
+  }
+
+  if(page==="resume"){
+    content.innerHTML=`
+    <h2>📄 Resume</h2>
+    <div class="card">
+      <p>Download my updated resume:</p>
+      <a href="Profile.pdf" download>
+        <button>⬇ Download Resume</button>
+      </a>
+    </div>`;
+  }
+
+  if(page==="settings"){
+    content.innerHTML=`
+    <h2>⚙️ Settings</h2>
+    <div class="card">
+      <button onclick="toggleTheme()">Toggle Dark / Light</button>
+    </div>`;
+  }
+}
+
+function toggleTheme(){
+  document.body.classList.toggle("light");
+}
+
+/* REAL GPA LOGIC */
+function calcGPA(){
+  let marks=[m1.value,m2.value,m3.value,m4.value,m5.value].map(Number);
+  let total=marks.reduce((a,b)=>a+b,0);
+  let gpa=(total/500*10).toFixed(2);
+  document.getElementById("gpaResult").innerText="Your GPA: "+gpa;
+}
+
+/* LOGOUT */
+function logout(){
+  localStorage.clear();
+  sessionStorage.clear();
+  window.location.href="index.html";
+}
+</script>
+
+</body>
+</html>
